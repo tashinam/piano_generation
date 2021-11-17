@@ -59,10 +59,10 @@ class lstm_conductor(nn.Module):
         # return lstm_out, hidden
         return lstm_out, hidden
 
-    def init_hidden(self):
+    def init_hidden(self, device):
         return (
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size),
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size))
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size, device=device),
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size, device=device))
 
 
 class lstm_decoder(nn.Module):
@@ -89,10 +89,10 @@ class lstm_decoder(nn.Module):
         # lstm_out = self.softmax(lstm_out)
         return lstm_out, hidden
 
-    def init_hidden(self):
+    def init_hidden(self, device):
         return (
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size),
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size))
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size, device=device),
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size, device=device))
 
 class VectorQuantizerEMA(nn.Module):
     def __init__(self, num_embeddings, embedding_dim, commitment_cost, decay, epsilon=1e-5):
