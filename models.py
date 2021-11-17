@@ -92,7 +92,7 @@ class lstm_decoder(nn.Module):
     def init_hidden(self):
         return (
         torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size),
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size)
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size))
 
 class VectorQuantizerEMA(nn.Module):
     def __init__(self, num_embeddings, embedding_dim, commitment_cost, decay, epsilon=1e-5):
