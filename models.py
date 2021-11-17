@@ -23,10 +23,10 @@ class lstm_encoder(nn.Module):
         lstm_out, hidden = self.lstm(x_input, hidden)
         return lstm_out, hidden
 
-    def init_hidden(self):
+    def init_hidden(self, device):
         return (
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size),
-        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size))
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size, device=device),
+        torch.zeros((self.bidirectional + 1) * self.num_layers, self.batch_size, self.hidden_size, device=device))
 
 
 class lstm_conductor(nn.Module):
