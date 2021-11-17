@@ -1,5 +1,7 @@
 # set up dataloader for conditional vae
 from torch.utils.data import Dataset, DataLoader
+import pandas as pd
+
 class Maestro(Dataset):
 
     # def __init__(self, music_file, curve_file):
