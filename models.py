@@ -1,6 +1,7 @@
 ### set up encoder & decoder networks
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class lstm_encoder(nn.Module):
