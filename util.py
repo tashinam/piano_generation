@@ -1,10 +1,13 @@
-# set up dataloader for conditional vae
-from torch.utils.data import Dataset, DataLoader
-import pandas as pd
+import IPython.display
+import pretty_midi
 import torch
-import torch.nn.functional as F
-import numpy as np
 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import torch.nn.functional as F
+
+from torch.utils.data import Dataset, DataLoader
 
 class Maestro(Dataset):
 
@@ -44,3 +47,29 @@ def best_fit_slope_and_intercept(xs, ys):
     m = (((np.mean(xs) * np.mean(ys)) - np.mean(xs * ys)) / ((np.mean(xs) * np.mean(xs)) - np.mean(xs * xs)))
     b = np.mean(ys) - m * np.mean(xs)
     return m, b
+
+
+def display_midi(mel):
+    pno = torch.tensor([0, 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0, 0.5]).repeat(len(mel), 8).T + 1
+    indices = torch.tensor([mel]) - 21
+    scale = torch.zeros((88, len(mel)))
+    scale.scatter_(0, indices, 1)
+
+    plt.figure(figsize=((torch.max(indices) - torch.min(indices)) / 2, len(mel) / 8))
+    plt.imshow(pno, origin='lower', aspect='auto', vmin=0.5, cmap='viridis_r')
+    plt.imshow(scale, origin='lower', aspect='auto', alpha=scale, cmap='spring')
+    plt.ylim(torch.min(indices) - 0.5, torch.max(indices) + 0.5)
+    plt.xticks([])
+    plt.yticks([])
+    plt.vlines(np.array(range(0, len(mel), 8)) - 0.5, ymin=0, ymax=88, linewidth=0.5)
+
+    return plt.show()
+
+def play_midi(mel):
+    pm = pretty_midi.PrettyMIDI(initial_tempo=100)
+    inst = pretty_midi.Instrument(program=0)
+    pm.instruments.append(inst)
+    velocity = 80
+    for pitch, start, end in zip(mel, np.arange(0,len(mel),0.3), np.arange(0,len(mel),0.3)+0.5):
+        inst.notes.append(pretty_midi.Note(velocity, pitch, start, end))
+    return IPython.display.Audio(pm.fluidsynth(fs=44100), rate=44100)
