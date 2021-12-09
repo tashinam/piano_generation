@@ -55,7 +55,7 @@ def display_midi(mel):
     scale = torch.zeros((88, len(mel)))
     scale.scatter_(0, indices, 1)
 
-    plt.figure(figsize=((torch.max(indices) - torch.min(indices)) / 2, len(mel) / 8))
+    plt.figure(figsize=(len(mel) / 2.5, (torch.max(indices) - torch.min(indices)) / 6))
     plt.imshow(pno, origin='lower', aspect='auto', vmin=0.5, cmap='viridis_r')
     plt.imshow(scale, origin='lower', aspect='auto', alpha=scale, cmap='spring')
     plt.ylim(torch.min(indices) - 0.5, torch.max(indices) + 0.5)
