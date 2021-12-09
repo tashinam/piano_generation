@@ -65,6 +65,7 @@ def display_midi(mel):
 
     return plt.show()
 
+
 def play_midi(mel):
     pm = pretty_midi.PrettyMIDI(initial_tempo=100)
     inst = pretty_midi.Instrument(program=0)
@@ -73,3 +74,15 @@ def play_midi(mel):
     for pitch, start, end in zip(mel, np.arange(0,len(mel),0.3), np.arange(0,len(mel),0.3)+0.5):
         inst.notes.append(pretty_midi.Note(velocity, pitch, start, end))
     return IPython.display.Audio(pm.fluidsynth(fs=44100), rate=44100)
+
+
+def alpha(k, N):
+    if k == 0:
+        return 1 / np.sqrt(N)
+    else:
+        return np.sqrt(2 / N)
+
+
+def cosine(n, k, N):
+    return alpha(k, N) * np.cos(np.pi * (2 * n + 1) * k / (2 * N))
+
