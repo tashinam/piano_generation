@@ -49,17 +49,36 @@ def best_fit_slope_and_intercept(xs, ys):
     return m, b
 
 
+# RESIZE TO FIT MELODY RANGE
+# def display_midi(mel):
+#     pno = torch.tensor([0, 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0, 0.5]).repeat(len(mel), 8).T + 1
+#     indices = torch.tensor([mel])
+#     scale = torch.zeros((88, len(mel)))
+#     scale.scatter_(0, indices, 1)
+#
+#     plt.figure(figsize=(len(mel) / 2.5, (torch.max(indices) - torch.min(indices)) / 6))
+#     plt.imshow(pno, origin='lower', aspect='auto', vmin=0.5, cmap='viridis_r')
+#     plt.imshow(scale, origin='lower', aspect='auto', alpha=scale, cmap='spring')
+#     # plt.ylim(torch.min(indices) - 0.5, torch.max(indices) + 0.5)
+#     plt.ylim(60-0.5, 84+0.5)
+#     plt.xticks([])
+#     plt.yticks([])
+#     plt.vlines(np.array(range(0, len(mel), 8)) - 0.5, ymin=0, ymax=88, linewidth=0.5)
+#
+#     return plt.show()
+
+
+# KEEP 2 OCTAVES FROM MIDDLE C
 def display_midi(mel):
     pno = torch.tensor([0, 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0, 0.5]).repeat(len(mel), 8).T + 1
-    indices = torch.tensor([mel])
+    indices = torch.tensor([mel]) - 21
     scale = torch.zeros((88, len(mel)))
     scale.scatter_(0, indices, 1)
 
-    plt.figure(figsize=(len(mel) / 2.5, (torch.max(indices) - torch.min(indices)) / 6))
+    plt.figure(figsize=(len(mel) / 2.5, 24 / 6))
     plt.imshow(pno, origin='lower', aspect='auto', vmin=0.5, cmap='viridis_r')
     plt.imshow(scale, origin='lower', aspect='auto', alpha=scale, cmap='spring')
-    # plt.ylim(torch.min(indices) - 0.5, torch.max(indices) + 0.5)
-    plt.ylim(60-0.5, 84+0.5)
+    plt.ylim(60-0.7-21, 84+0.7-21)
     plt.xticks([])
     plt.yticks([])
     plt.vlines(np.array(range(0, len(mel), 8)) - 0.5, ymin=0, ymax=88, linewidth=0.5)
