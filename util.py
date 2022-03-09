@@ -51,7 +51,7 @@ def best_fit_slope_and_intercept(xs, ys):
 
 def display_midi(mel):
     pno = torch.tensor([0, 0.5, 0, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0, 0.5]).repeat(len(mel), 8).T + 1
-    indices = torch.tensor([mel]) - 21
+    indices = torch.tensor([mel])
     scale = torch.zeros((88, len(mel)))
     scale.scatter_(0, indices, 1)
 
